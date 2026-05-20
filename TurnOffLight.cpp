@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+int n, k;
+string bulbs;
+
+// Function to check if we can turn off all the bulbs with given x
+bool can(int x) {
+    int operations = 0;
+    int i = 0;
+
+    while (i < n) {
+        if (bulbs[i] == '1') {
+            operations++;
+            i += x;  
+        } else {
+            i++;
+        }
+    }
+
+    return operations <= k;
+}
+int main() {
+    cin >> n >> k;
+    cin >> bulbs;
+
+    int low = 1, high = n;
+    int answer = n;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        if (can(mid)) {
+            answer = mid;
+            high = mid - 1;  // try smaller x
+        } else {
+            low = mid + 1;   // need bigger x
+        }
+    }
+
+    cout << answer << endl;
+
+    return 0;
+}
